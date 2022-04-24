@@ -19,6 +19,13 @@ type TransactionFeedsCtx = {
   contactIds?: string[];
 };
 
+const nextTransactionFeedPage = (service: string, page: number): void => {
+  cy.window({ log: false }).then((win) => {
+    // @ts-ignore
+    return win[service].send("FETCH", { page });
+  });
+ }; 
+
 const setTransactionAmountRange = (min: number, max: number): void => {
   cy.getBySel("transaction-list-filter-amount-range-button")
   .scrollIntoView()
