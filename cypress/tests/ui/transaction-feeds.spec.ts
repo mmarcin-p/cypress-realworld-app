@@ -10,6 +10,7 @@ import {
 import { addDays, isWithinInterval, startOfDay } from "date-fns";
 import { startOfDayUTC, endOfDayUTC } from "../../../src/utils/transactionUtils";
 import { isMobile } from "../../support/utils";
+import { format as formatDate } from "date-fns";
 
 const { _ } = Cypress;
 
@@ -19,23 +20,38 @@ type TransactionFeedsCtx = {
   contactIds?: string[];
 };
 
+const pickDateRange = (startDate: Date, endDate: Date): void => {
+  const selectDate = (date: Date) => {
+    return cy.get(`[data-date='${formatDate(date, "yyyy-MM-dd")}']`).click({ force: true });
+  };
+  
+  // @ts-ignore
+  cy.clock(startDate.getTime(), ["Date"]);
+  cy.getBySelLike("filter-date-range-button").click({ force: true });
+  cy.get(".Cal__Header__root").should("be.visible");
+  selectDate(startDate);
+  selectDate(endDate);
+  cy.get(".Cal__Header__root").should("not.exist");
+ };
+ 
+
 const nextTransactionFeedPage = (service: string, page: number): void => {
   cy.window({ log: false }).then((win) => {
     // @ts-ignore
     return win[service].send("FETCH", { page });
   });
- }; 
+};
 
 const setTransactionAmountRange = (min: number, max: number): void => {
   cy.getBySel("transaction-list-filter-amount-range-button")
-  .scrollIntoView()
-  .click({ force: true });
+    .scrollIntoView()
+    .click({ force: true });
 
-cy
-  .getBySelLike("filter-amount-range-slider")
-  .reactComponent()
-  .its("memoizedProps")
-  .invoke("onChange", null, [min / 10, max / 10]);
+  cy
+    .getBySelLike("filter-amount-range-slider")
+    .reactComponent()
+    .its("memoizedProps")
+    .invoke("onChange", null, [min / 10, max / 10]);
 };
 
 describe("Transaction Feed", function () {
