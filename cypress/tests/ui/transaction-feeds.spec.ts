@@ -235,7 +235,7 @@ describe("Transaction Feed", function () {
             expect(results).have.length(Cypress.env("paginationPageSize"));
             expect(pageData.page).to.equal(2);
             cy.visualSnapshot(`Paginate ${feedName} Next Page`);
-            cy.nextTransactionFeedPage(feed.service, pageData.totalPages);
+            nextTransactionFeedPage(feed.service, pageData.totalPages);
           });
 
         cy.wait(`@${feed.routeAlias}`)
