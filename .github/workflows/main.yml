@@ -172,7 +172,6 @@ jobs:
       - name: "API Tests - Chrome"
         uses: cypress-io/github-action@v2
         with:
-          command-prefix: 'percy exec -- npx'
           start: yarn start:ci
           wait-on: "http://localhost:3000"
           wait-on-timeout: 120
@@ -204,7 +203,6 @@ jobs:
       - name: "UI Tests - Edge"
         uses: cypress-io/github-action@v2
         with:
-          command-prefix: 'percy exec -- npx'
           start: yarn start:ci
           wait-on: "http://localhost:3000"
           wait-on-timeout: 120
