@@ -272,7 +272,7 @@ describe("Transaction Feed", function () {
 
           cy.wait(`@${feed.routeAlias}`).its("response.body.results").as("unfilteredResults");
 
-          cy.pickDateRange(dateRangeStart, dateRangeEnd);
+          pickDateRange(dateRangeStart, dateRangeEnd);
 
           cy.wait(`@${feed.routeAlias}`)
             .its("response.body.results")
@@ -318,7 +318,7 @@ describe("Transaction Feed", function () {
         cy.getBySelLike(feed.tab).click();
         cy.wait(`@${feed.routeAlias}`);
 
-        cy.pickDateRange(dateRangeStart, dateRangeEnd);
+        pickDateRange(dateRangeStart, dateRangeEnd);
         cy.wait(`@${feed.routeAlias}`);
 
         cy.getBySelLike("transaction-item").should("have.length", 0);
