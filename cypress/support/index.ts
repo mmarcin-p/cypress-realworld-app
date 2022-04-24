@@ -2,7 +2,7 @@
 import "@cypress/code-coverage/support";
 import "./commands";
 import "./reactcommands";
-import "./transcationcommands";
+import "./transactioncommands";
 import "./authcommands";
 import "@percy/cypress";
 import { isMobile } from "./utils";
